@@ -2,27 +2,26 @@ Educational Management System
 The Educational Management System is a comprehensive software application that helps educational institutions, including schools, colleges, and universities, manage various aspects of their operations. This system provides a centralized platform to manage the academic, administrative, and financial activities of an educational institution.
 
 Features
+The Educational Management System provides the following features:
 
--   The Educational Management System provides the following features:
+-   Authentication : Sign up and Login processes . There will be 2 types of accounts, Teachers account and students account
 
--   Student Management: Manage student information, attendance, academic records, and performance reports.
+-   Student Management: Manage student information, assignment subsmissions and attendance records
 
--   Admission Management: Manage the admission process, including online application, fee payment, and document verification.
+-   Education Process : Teachers will upload documents and assignments for students in a particular classroom. Students will be allowed to ask questions in a forum and also upload their assignments to be reviewed abs
 
--   Timetable Management: Create and manage the institution's academic timetable, including classes, teachers, and resources.
+-   Easy view of documents : Process will be provided to allow teachers and students view a document or file on the website without necessarily downloading them
 
--   Examination Management: Create and manage exams, assign invigilators, and generate exam reports.
+-   Live class sessions : Coming soon
 
--   Finance Management: Manage the institution's finances, including fee collection, salary payments, and budget tracking.
-
--   Human Resources Management: Manage the institution's employees, including hiring, promotions, and performance tracking.
+-   Classroom Invitation : Students can only access a classroom and its resources when they are a member of the particular classroom . Teachers can also decide to remove a student from the classroom if they want to. In same way a student can exit a classroom
 
 Installation
 To install and run the Educational Management System on your local machine, follow these steps:
 
 Clone the repository from GitHub:
 
-bash
+bash || cmd
 Copy code
 https://github.com/FosterSOAsare/education-management-system.git
 Install the required dependencies:
