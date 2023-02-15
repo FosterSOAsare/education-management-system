@@ -1,0 +1,20 @@
+// Store fonts and colors here
+* {
+	padding: 0;
+	margin: 0;
+	box-sizing: border-box;
+}
+
+// Add mixins here
+@mixin flex($justify, $align) {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+@mixin container {
+	width: 100%;
+	padding: 0 20px;
+	max-width: 1024px;
+	margin: 0 auto;
+}
