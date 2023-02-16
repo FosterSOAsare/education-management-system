@@ -4,7 +4,7 @@ import Firebase from "../backend/Firebase";
 const AppContext = createContext();
 
 const AppProvider = ({ children }) => {
-	const [userCredentails, credentialsDispatchFunc] = useReducer(credentialsFunc, { userId: JSON.parse(localStorage.getItem("userId")) || null, user: null });
+	const [userCredentials, credentialsDispatchFunc] = useReducer(credentialsFunc, { userId: JSON.parse(localStorage.getItem("userId")) || null, user: null });
 	const firebase = useMemo(() => new Firebase(), []);
 
 	function credentialsFunc(state, action) {
@@ -21,10 +21,23 @@ const AppProvider = ({ children }) => {
 	}
 
 	useEffect(() => {
-		localStorage.setItem("userId", JSON.stringify(userCredentails?.userId));
-	}, [userCredentails?.userId]);
+		localStorage.setItem("userId", JSON.stringify(userCredentials?.userId));
+		// Fetch and store user data
+		userCredentials?.userId &&
+			firebase.fetchUserWithId(userCredentials.userId, (res) => {
+				if (res?.error) return;
+				if (res.empty && navigator.onLine) {
+					firebase.signOutUser((res) => {
+						credentialsDispatchFunc({ type: "clearUserData" });
+					});
+					// Logout user
+					return;
+				}
+				credentialsDispatchFunc({ type: "storeData", payload: res });
+			});
+	}, [userCredentials?.userId, firebase, credentialsDispatchFunc]);
 
-	return <AppContext.Provider value={{ firebase, credentialsDispatchFunc, userCredentails }}>{children}</AppContext.Provider>;
+	return <AppContext.Provider value={{ firebase, credentialsDispatchFunc, userCredentials }}>{children}</AppContext.Provider>;
 };
 
 export function useAppContext() {

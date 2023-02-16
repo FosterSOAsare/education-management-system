@@ -5,7 +5,6 @@
 	.auth__container {
 		height: 80vh;
 		width: 100%;
-		background-color: green;
 		@include flex(space-between, center);
 		.left,
 		.right {
@@ -37,6 +36,9 @@
 				button {
 					width: 90%;
 				}
+				.waiting {
+					opacity: 0.5;
+				}
 				p.redirect {
 					margin-top: 15px;
 					width: 90%;
@@ -45,6 +47,9 @@
 						color: $background2;
 						text-decoration: none;
 					}
+				}
+				.error {
+					width: 90%;
 				}
 			}
 		}

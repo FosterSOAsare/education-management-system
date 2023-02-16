@@ -9,18 +9,31 @@ import Error from "../../components/form/Error/Error";
 
 const Login = () => {
 	const { firebase, credentialsDispatchFunc } = useAppContext();
-	const { errorDispatchFunc, error, clearError } = useAuthContext();
+	const { errorDispatchFunc, error, clearError, validations, waiting, setWaiting } = useAuthContext();
 	const navigate = useNavigate();
 	const formRef = useRef();
 	function logInUser(e) {
-		let email = "",
-			password = "";
 		e.preventDefault();
+		setWaiting(true);
+		let formData = new FormData(formRef.current);
+		let email = formData.get("email"),
+			password = formData.get("password");
+
+		if (!email || !password) {
+			errorDispatchFunc({ type: "displayError", payload: "Please fill in all credentials" });
+			return;
+		}
+		// Form validation
+		if (!validations.validateEmail(email)) {
+			errorDispatchFunc({ type: "displayError", payload: "Please enter a valid email address" });
+			return;
+		}
+
 		firebase.signInUser(email, password, (res) => {
-			console.log(res);
 			if (res?.error) {
 				if (res.payload) {
 					errorDispatchFunc({ type: "displayError", payload: res.payload });
+					setWaiting(false);
 					return;
 				}
 				return;
@@ -43,7 +56,16 @@ const Login = () => {
 						<PasswordInput label="Enter your password" name="password" />
 
 						{error.display === "block" && <Error text={error.text} />}
-						<button className="primary">Login</button>
+						{!waiting && (
+							<button className="primary" disabled={error.display === "block"}>
+								Login
+							</button>
+						)}
+						{waiting && (
+							<button className="primary waiting" disabled>
+								Waiting...
+							</button>
+						)}
 						<p className="redirect">
 							Don't have an account? <Link to="/register">Sign up </Link>
 						</p>

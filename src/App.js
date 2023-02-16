@@ -10,12 +10,12 @@ import Verifications from "./pages/Verifications/Verifications";
 
 function LogInRequired({ children }) {
 	const { userCredentails } = useAppContext();
-	return userCredentails.userId ? children : <Navigate to="/login"></Navigate>;
+	return userCredentails?.userId ? children : <Navigate to="/login"></Navigate>;
 }
 
 function CheckLoggedIn({ children }) {
-	const { userCredentails } = useAppContext();
-	return !userCredentails.userId ? children : <Navigate to="/"></Navigate>;
+	const { userCredentials } = useAppContext();
+	return !userCredentials?.userId ? children : <Navigate to="/"></Navigate>;
 }
 function App() {
 	return (

@@ -1,7 +1,7 @@
 import { initializeApp } from "firebase/app";
 import { getAuth, createUserWithEmailAndPassword, sendEmailVerification, signInWithEmailAndPassword, signOut, updatePassword, onAuthStateChanged } from "firebase/auth";
 import { getStorage } from "firebase/storage";
-import { getDatabase } from "firebase/database";
+import { getFirestore, getDoc, doc, serverTimestamp, setDoc } from "firebase/firestore";
 
 export default class Firebase {
 	constructor() {
@@ -15,7 +15,7 @@ export default class Firebase {
 		};
 		this.app = initializeApp(this.firebaseConfig);
 		this.storage = getStorage(this.app);
-		this.db = getDatabase(this.app);
+		this.db = getFirestore(this.app);
 		this.auth = getAuth();
 	}
 
@@ -43,6 +43,16 @@ export default class Firebase {
 		});
 	}
 
+	async storeUser(uid, email, fullname, callback) {
+		try {
+			let data = { email, fullname, timestamp: serverTimestamp() };
+			let res = await setDoc(doc(this.db, "users", uid), data);
+			callback(res);
+		} catch (e) {
+			callback({ error: true });
+		}
+	}
+
 	async signInUser(email, password, callback) {
 		try {
 			let userCredentials = await signInWithEmailAndPassword(this.auth, email, password);
@@ -61,7 +71,6 @@ export default class Firebase {
 			await signOut(this.auth);
 			callback(this.auth.currentUser);
 		} catch (e) {
-			console.log(e);
 			callback({ error: true });
 		}
 	}
@@ -77,7 +86,6 @@ export default class Firebase {
 					callback({ error: true });
 				});
 		} catch (e) {
-			console.log(e);
 			callback({ error: true });
 		}
 	}
@@ -86,5 +94,18 @@ export default class Firebase {
 		onAuthStateChanged(this.auth, (res) => {
 			callback(res.auth.currentUser);
 		});
+	}
+
+	async fetchUserWithId(userId, callback) {
+		try {
+			let res = await getDoc(doc(this.db, "users", userId));
+			if (!res.exists()) {
+				callback({ empty: true });
+				return;
+			}
+			callback(res);
+		} catch (error) {
+			callback({ error: true });
+		}
 	}
 }
