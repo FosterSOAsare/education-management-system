@@ -15,7 +15,11 @@ const AuthProvider = ({ children }) => {
 				return state;
 		}
 	}
-	return <AuthContext.Provider value={{ error, errorDispatchFunc }}>{children}</AuthContext.Provider>;
+
+	function clearError() {
+		errorDispatchFunc({ type: "clearError" });
+	}
+	return <AuthContext.Provider value={{ error, errorDispatchFunc, clearError }}>{children}</AuthContext.Provider>;
 };
 
 export function useAuthContext() {
