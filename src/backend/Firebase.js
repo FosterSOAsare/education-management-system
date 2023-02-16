@@ -1,5 +1,5 @@
 import { initializeApp } from "firebase/app";
-import { getAuth, createUserWithEmailAndPassword, sendEmailVerification, signInWithEmailAndPassword, signOut } from "firebase/auth";
+import { getAuth, createUserWithEmailAndPassword, sendEmailVerification, signInWithEmailAndPassword, signOut, updatePassword, onAuthStateChanged } from "firebase/auth";
 import { getStorage } from "firebase/storage";
 import { getDatabase } from "firebase/database";
 
@@ -61,7 +61,30 @@ export default class Firebase {
 			await signOut(this.auth);
 			callback(this.auth.currentUser);
 		} catch (e) {
+			console.log(e);
 			callback({ error: true });
 		}
+	}
+
+	async changeUserPassword(oldPassword, newPassword, callback) {
+		try {
+			// Check if the details are correct
+			updatePassword(this.auth.currentUser, newPassword)
+				.then(() => {
+					callback("success");
+				})
+				.catch((error) => {
+					callback({ error: true });
+				});
+		} catch (e) {
+			console.log(e);
+			callback({ error: true });
+		}
+	}
+
+	async getAuth(callback) {
+		onAuthStateChanged(this.auth, (res) => {
+			callback(res.auth.currentUser);
+		});
 	}
 }
