@@ -1,7 +1,7 @@
 import React, { useRef, useState } from "react";
 import { AiFillEye } from "react-icons/ai";
 import { FiEyeOff } from "react-icons/fi";
-import { useAuthContext } from "../../../../context/AuthContext";
+import { useAuthContext } from "../../../context/AuthContext";
 
 const PasswordInput = ({ name, label }) => {
 	const [type, setType] = useState("password");

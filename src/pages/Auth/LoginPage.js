@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { useAppContext } from "../../context/AppContext";
 import { useNavigate } from "react-router-dom";
 import { useAuthContext } from "../../context/AuthContext";
-import PasswordInput from "../../components/form/Error/PasswordInput/PasswordInput";
+import PasswordInput from "../../components/form/PasswordInput/PasswordInput";
 import Error from "../../components/form/Error/Error";
 
 const Login = () => {
