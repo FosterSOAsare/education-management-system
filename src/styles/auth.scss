@@ -2,28 +2,33 @@
 	min-height: 100vh;
 	width: 100%;
 	@include flex(center, center);
+
 	.auth__container {
 		height: 80vh;
-		width: 100%;
+		width: 50%;
+		background-color: rgb(255, 255, 255);
 		@include flex(space-between, center);
+
 		.left,
 		.right {
 			height: 100%;
-			width: 50%;
+			width: 100%;
 			background-color: $white;
-		}
-		.left {
 			padding: 20px;
+		}
+
+		.left {
 			form {
-				width: 100%;
 				@include flex(flex-start, flex-start);
 				flex-direction: column;
 				height: 100%;
+
 				.intro {
 					margin-bottom: 20px;
 					font-size: 32px;
 					font-weight: 400;
 				}
+
 				.textInput {
 					width: 90%;
 					margin-bottom: 20px;
@@ -32,6 +37,7 @@
 						color: $primaryText;
 					}
 				}
+
 				.passwordField,
 				button {
 					width: 90%;
@@ -39,6 +45,7 @@
 				.waiting {
 					opacity: 0.5;
 				}
+
 				p.redirect {
 					margin-top: 15px;
 					width: 90%;
@@ -47,17 +54,46 @@
 						color: $background2;
 						text-decoration: none;
 					}
-				}
-				.error {
-					width: 90%;
+
+					.error {
+						width: 90%;
+					}
 				}
 			}
 		}
+
 		.right {
 			background-color: $background2;
+
 			img {
 				height: 100%;
 				width: 100%;
+				object-fit: contain;
+			}
+		}
+
+		// Media query for smaller screens
+		@media (max-width: 768px) {
+			flex-direction: column-reverse;
+
+			.left,
+			.right {
+				width: 100%;
+			}
+
+			.right {
+				height: 40%;
+				order: 2;
+				img {
+					border-radius: 15px;
+					height: 100%;
+					object-fit: cover;
+				}
+			}
+
+			.left {
+				height: 100%;
+				order: 1;
 			}
 		}
 	}
