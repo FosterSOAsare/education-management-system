@@ -5,7 +5,7 @@
 
 	.auth__container {
 		height: 80vh;
-		width: 50%;
+		width: 100%;
 		background-color: rgb(255, 255, 255);
 		@include flex(space-between, center);
 
@@ -22,6 +22,10 @@
 				@include flex(flex-start, flex-start);
 				flex-direction: column;
 				height: 100%;
+				width: 100%;
+				.register__intro {
+					display: none;
+				}
 
 				.intro {
 					margin-bottom: 20px;
@@ -64,36 +68,28 @@
 
 		.right {
 			background-color: $background2;
-
 			img {
 				height: 100%;
 				width: 100%;
-				object-fit: contain;
 			}
 		}
 
 		// Media query for smaller screens
 		@media (max-width: 768px) {
-			flex-direction: column-reverse;
-
-			.left,
-			.right {
+			.left {
 				width: 100%;
-			}
-
-			.right {
-				height: 40%;
-				order: 2;
-				img {
-					border-radius: 15px;
-					height: 100%;
-					object-fit: cover;
+				padding: 0;
+				form {
+					.register__intro {
+						display: block;
+						margin-bottom: 20px;
+						font-weight: 400;
+					}
 				}
 			}
 
-			.left {
-				height: 100%;
-				order: 1;
+			.right {
+				display: none;
 			}
 		}
 	}

@@ -73,6 +73,7 @@ const RegisterPage = () => {
 			<section className="auth__container">
 				<article className="left">
 					<form action="" ref={formRef} onSubmit={createAccount}>
+						<h2 className="register__intro">Create An Account</h2>
 						<div className="textInput">
 							<label htmlFor="name">Full name: </label>
 							<input type="text" placeholder="Enter full name" name="name" onFocus={() => clearError()} autoComplete="true" />
