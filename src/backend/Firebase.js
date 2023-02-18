@@ -22,8 +22,12 @@ export default class Firebase {
 	async createNewUserAuth(email, password, callback) {
 		try {
 			let res = await createUserWithEmailAndPassword(this.auth, email, password);
-			await Promise.resolve(this.sendVerificationEmail());
-			callback(res);
+			try {
+				await Promise.resolve(this.sendVerificationEmail());
+				callback(res);
+			} catch (e) {
+				console.log(e);
+			}
 		} catch (e) {
 			if (e.code === "auth/email-already-in-use") {
 				callback({ error: true, payload: "Email already exists" });
@@ -36,6 +40,10 @@ export default class Firebase {
 	async sendVerificationEmail() {
 		return new Promise(async (resolve, reject) => {
 			try {
+				if (!this.auth.currentUser) {
+					reject({ error: true, payload: "auth-error" });
+					return;
+				}
 				resolve(
 					await sendEmailVerification(this.auth.currentUser, {
 						url: "http://localhost:3000/verifications",
@@ -47,6 +55,9 @@ export default class Firebase {
 			}
 		});
 	}
+	async checkVerifiedEmail(callback) {
+		return this.auth?.currentUser?.emailVerified;
+	}
 
 	async verifyEmail(oobCode, callback) {
 		try {
@@ -54,10 +65,9 @@ export default class Firebase {
 				callback(this.auth);
 				return;
 			}
-			if (this.auth) {
-				await applyActionCode(this?.auth, oobCode);
-				callback(this.auth);
-			}
+			applyActionCode(this?.auth, oobCode).then((res) => {
+				callback(this?.auth);
+			});
 		} catch (e) {
 			if (e.code === "auth/invalid-action-code") {
 				callback({ payload: "Invalid action code", error: true });
@@ -80,6 +90,16 @@ export default class Firebase {
 	async signInUser(email, password, callback) {
 		try {
 			let userCredentials = await signInWithEmailAndPassword(this.auth, email, password);
+			if (userCredentials.user.emailVerified === false) {
+				this.signOutUser((res) => {
+					if (res?.error) {
+						callback(res);
+					} else {
+						callback({ error: true, payload: "unverified" });
+					}
+				});
+				return;
+			}
 			callback(userCredentials.user);
 		} catch (error) {
 			if (error.code === "auth/wrong-password" || error.code === "auth/user-not-found") {

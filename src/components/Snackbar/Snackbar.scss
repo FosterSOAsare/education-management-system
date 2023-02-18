@@ -1,0 +1,20 @@
+.snackbar {
+	position: absolute;
+	bottom: 20px;
+	right: 20px;
+	background-color: green;
+	width: 450px;
+	background-color: $primaryText;
+	padding: 10px;
+	@include flex(space-between, center);
+	color: $white;
+	.icon {
+		position: absolute;
+		font-size: 12px;
+		right: 2px;
+		top: 2px;
+		&:hover {
+			cursor: pointer;
+		}
+	}
+}

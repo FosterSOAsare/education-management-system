@@ -7,7 +7,7 @@ const ResponseMessage = ({ status, type }) => {
 	return (
 		<section className="content">
 			<div className={`verification__icon${" verification__" + status}`}>{status === "success" ? <TiTick /> : <BiErrorCircle />}</div>
-			<p className="subtitles">{type === "email verification" && status === "error" && "Email verfication code has either been used ort has expired "}</p>
+			<p className="subtitles">{type === "email verification" && status === "error" && "Email verfication code has either been used or has expired "}</p>
 			{type === "email verification" && status === "success" && (
 				<>
 					<p className="subtitles">Account has been successfully verified</p>
