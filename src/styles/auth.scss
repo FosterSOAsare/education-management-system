@@ -25,7 +25,7 @@
 		.container__text {
 			form,
 			.content {
-				@include flex(flex-start, flex-start);
+				@include flex(center, center);
 				flex-direction: column;
 				height: 100%;
 				width: 100%;
@@ -146,6 +146,7 @@
 					width: 380px;
 					border-radius: 0px;
 					margin-bottom: 20px;
+					background-color: $primaryText;
 				}
 				.resend {
 					span {

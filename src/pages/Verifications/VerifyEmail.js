@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { useAppContext } from "../../context/AppContext";
 import { HiMail } from "react-icons/hi";
 import { useNavigate } from "react-router-dom";
-const VerifyEmail = ({ data, setStatus }) => {
+const VerifyEmail = ({ data, setStatus, setDisplaySnackbar }) => {
 	const { firebase } = useAppContext();
 	const email = data.get("email"),
 		oobCode = data.get("oobCode");
@@ -27,6 +27,21 @@ const VerifyEmail = ({ data, setStatus }) => {
 				}, 6000);
 			});
 	});
+
+	async function resendEmail() {
+		try {
+			await firebase.sendVerificationEmail();
+			setDisplaySnackbar(true);
+			setTimeout(() => {
+				setDisplaySnackbar(false);
+			}, 5000);
+		} catch (e) {
+			if (e.payload === "auth-error") {
+				console.log("not Found");
+				// Set not found
+			}
+		}
+	}
 	return (
 		<>
 			{email && (
@@ -40,7 +55,7 @@ const VerifyEmail = ({ data, setStatus }) => {
 					</p>
 					<button className="primary verification__button">Open email app</button>
 					<p className="resend">
-						Didn't receive email? <span>Click to resend</span>
+						Didn't receive email? <span onClick={resendEmail}>Click to resend</span>
 					</p>
 				</section>
 			)}

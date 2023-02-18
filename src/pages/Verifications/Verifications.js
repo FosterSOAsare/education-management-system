@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import AuthImage from "../../assets/images/auth.png";
 import { useLocation } from "react-router-dom";
+import Snackbar from "../../components/Snackbar/Snackbar";
 
 import VerifyEmail from "./VerifyEmail";
 import ResponseMessage from "./ResponseMessage";
@@ -8,6 +9,7 @@ import ResponseMessage from "./ResponseMessage";
 const RegisterPage = () => {
 	// const { firebase } = useAppContext();
 	const [status, setStatus] = useState(null);
+	const [displaySnackbar, setDisplaySnackbar] = useState(false);
 	const location = useLocation();
 	const data = new URLSearchParams(location.search),
 		mode = data.get("mode"),
@@ -26,12 +28,13 @@ const RegisterPage = () => {
 							<img src={AuthImage} alt="Register" />
 						</article>
 						<article className="container__text">
-							{mode.toLowerCase() === "verifyemail" && <VerifyEmail data={data} setStatus={setStatus} />}
+							{mode.toLowerCase() === "verifyemail" && <VerifyEmail data={data} setStatus={setStatus} setDisplaySnackbar={setDisplaySnackbar} />}
 							{oobCode && status && <ResponseMessage status={status} type="email verification" />}
 						</article>
 					</section>
 				</>
 			}
+			{displaySnackbar && <Snackbar text="Email resent successfully" setDisplaySnackbar={setDisplaySnackbar} />}
 		</main>
 	);
 };

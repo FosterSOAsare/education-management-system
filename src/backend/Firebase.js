@@ -22,8 +22,12 @@ export default class Firebase {
 	async createNewUserAuth(email, password, callback) {
 		try {
 			let res = await createUserWithEmailAndPassword(this.auth, email, password);
-			await Promise.resolve(this.sendVerificationEmail());
-			callback(res);
+			try {
+				await Promise.resolve(this.sendVerificationEmail());
+				callback(res);
+			} catch (e) {
+				console.log(e);
+			}
 		} catch (e) {
 			if (e.code === "auth/email-already-in-use") {
 				callback({ error: true, payload: "Email already exists" });
@@ -36,6 +40,10 @@ export default class Firebase {
 	async sendVerificationEmail() {
 		return new Promise(async (resolve, reject) => {
 			try {
+				if (!this.auth.currentUser) {
+					reject({ error: true, payload: "auth-error" });
+					return;
+				}
 				resolve(
 					await sendEmailVerification(this.auth.currentUser, {
 						url: "http://localhost:3000/verifications",
