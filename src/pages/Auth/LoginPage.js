@@ -1,5 +1,5 @@
 import React, { useRef } from "react";
-import LoginImage from "../../assets/images/login.jpg";
+import LoginImage from "../../assets/images/auth.png";
 import { Link } from "react-router-dom";
 import { useAppContext } from "../../context/AppContext";
 import { useNavigate } from "react-router-dom";
@@ -66,8 +66,13 @@ const Login = () => {
 								Waiting...
 							</button>
 						)}
+						<button className="google-button" disabled={error.display === "block"}>
+							<img src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg" alt="Google logo" />
+							<span>Sign in with Google</span>
+						</button>
 						<p className="redirect">
-							Don't have an account? <Link to="/register">Sign up </Link>
+							<span>Don't have an account?</span>
+							<Link to="/register">Sign up </Link>
 						</p>
 					</form>
 				</article>

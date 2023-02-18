@@ -9,13 +9,13 @@ import Dashboard from "./pages/Dashboard/Dashboard";
 import Verifications from "./pages/Verifications/Verifications";
 
 function LogInRequired({ children }) {
-	const { userCredentails } = useAppContext();
-	return userCredentails?.userId ? children : <Navigate to="/login"></Navigate>;
+	const { userCredentials } = useAppContext();
+	return userCredentials?.userId ? children : <Navigate to="/login"></Navigate>;
 }
 
 function CheckLoggedIn({ children }) {
 	const { userCredentials } = useAppContext();
-	return !userCredentials?.userId ? children : <Navigate to="/"></Navigate>;
+	return !userCredentials?.userId ? children : <Navigate to="/dashboard"></Navigate>;
 }
 function App() {
 	return (

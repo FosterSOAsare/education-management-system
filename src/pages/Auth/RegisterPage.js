@@ -1,5 +1,5 @@
 import React, { useRef } from "react";
-import RegisterImage from "../../assets/images/login.png";
+import AuthImage from "../../assets/images/auth.png";
 import { Link } from "react-router-dom";
 import { useAppContext } from "../../context/AppContext";
 import { useNavigate } from "react-router-dom";
@@ -70,10 +70,10 @@ const RegisterPage = () => {
 	}
 	return (
 		<main className="auth container" id="auth">
-			<section className="auth__container">
+			<section className="auth__container intro">
 				<article className="left">
 					<form action="" ref={formRef} onSubmit={createAccount}>
-						<h2 className="register__intro">Create An Account</h2>
+						<h3 className="register__intro">Create An Account</h3>
 						<h6 className="register__subtitle">Manage All Your Academic Activities Online</h6>
 						<div className="textInput">
 							<label htmlFor="name">Full name: </label>
@@ -98,17 +98,18 @@ const RegisterPage = () => {
 								Waiting...
 							</button>
 						)}
-							<a href="#" class="google-button">
-								<img src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg" alt="Google logo" />
-								<span>Sign in with Google</span>
-							</a>
+						<button className="google-button" disabled={error.display === "block"}>
+							<img src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg" alt="Google logo" />
+							<span>Sign up with Google</span>
+						</button>
 						<p className="redirect">
-							Already have an account? <Link to="/login">Login </Link>
+							<span>Already have an account?</span>
+							<Link to="/login">Login </Link>
 						</p>
 					</form>
 				</article>
 				<article className="right">
-					<img src={RegisterImage} alt="Register" />
+					<img src={AuthImage} alt="Register" />
 				</article>
 			</section>
 		</main>

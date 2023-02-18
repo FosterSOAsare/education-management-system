@@ -3,12 +3,23 @@
 $background: #f0f0f0;
 $background2: #bbbbbb;
 $white: #ffffff;
-$primaryText: #1c2122;
+$primaryText: #131b23;
+
+@font-face {
+	font-family: "Gilmer";
+	src: url("../assets/fonts/Gilmer.otf");
+	font-weight: 400;
+}
+@font-face {
+	font-family: "Gilmer";
+	src: url("../assets/fonts/Gilmer-Bold.otf");
+	font-weight: 700;
+}
 * {
 	padding: 0;
 	margin: 0;
 	box-sizing: border-box;
-	font-family: "Roboto", sans-serif;
+	font-family: "Gilmer", sans-serif;
 }
 
 // Add mixins here
@@ -20,7 +31,6 @@ $primaryText: #1c2122;
 
 @mixin container {
 	width: 100%;
-	padding: 0 20px;
 	max-width: 100%;
 	margin: 0 auto;
 	min-height: 100vh;
@@ -55,7 +65,8 @@ label {
 	display: block;
 	font-size: 13px;
 	font-weight: bold;
-	opacity: 0.7;
+	opacity: 0.9;
+	color: $primaryText;
 }
 
 button {
@@ -75,7 +86,6 @@ button.secondary {
 
 .error {
 	color: red;
-
 	font-weight: bold;
 	font-family: "Lato", sans-serif;
 	margin-top: -15px;
