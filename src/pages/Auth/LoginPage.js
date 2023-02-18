@@ -29,7 +29,7 @@ const Login = () => {
 			return;
 		}
 
-		firebase.signInUser(email, password, (res) => {
+		firebase.signInUser(email, password, async (res) => {
 			if (res?.error) {
 				if (res.payload) {
 					errorDispatchFunc({ type: "displayError", payload: res.payload });
@@ -38,14 +38,23 @@ const Login = () => {
 				}
 				return;
 			}
-			credentialsDispatchFunc({ type: "storeUserId", payload: res });
+
+			// Checking if email is verified or not
+			if (!res.emailVerified) {
+				await Promise.resolve(firebase.sendVerificationEmail());
+				setWaiting(false);
+				navigate(`/verifications?mode=verifyemail&email=${email}`);
+				return;
+			}
+			setWaiting(false);
+			credentialsDispatchFunc({ type: "storeUserId", payload: res.uid });
 			navigate("/dashboard");
 		});
 	}
 	return (
 		<main className="auth container" id="auth">
 			<section className="auth__container">
-				<article className="left">
+				<article className="container__text">
 					<form action="" ref={formRef} onSubmit={logInUser}>
 						<h3 className="intro">Welcome back!</h3>
 						<div className="textInput">
@@ -53,7 +62,7 @@ const Login = () => {
 							<input type="text" placeholder="Enter your email" name="email" onFocus={() => clearError()} />
 						</div>
 
-						<PasswordInput label="Enter your password" name="password" />
+						<PasswordInput label="Enter your password" name="password" forgotPassword={true} />
 
 						{error.display === "block" && <Error text={error.text} />}
 						{!waiting && (
@@ -72,11 +81,19 @@ const Login = () => {
 						</button>
 						<p className="redirect">
 							<span>Don't have an account?</span>
-							<Link to="/register">Sign up </Link>
+							<Link
+								to="/register"
+								onClick={(e) => {
+									e.preventDefault();
+									clearError();
+									navigate("/register");
+								}}>
+								Sign up{" "}
+							</Link>
 						</p>
 					</form>
 				</article>
-				<article className="right">
+				<article className="container__image">
 					<img src={LoginImage} alt="Register" />
 				</article>
 			</section>

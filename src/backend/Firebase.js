@@ -42,6 +42,7 @@ export default class Firebase {
 					})
 				);
 			} catch (e) {
+				console.log(e);
 				reject(e);
 			}
 		});
@@ -49,12 +50,14 @@ export default class Firebase {
 
 	async verifyEmail(oobCode, callback) {
 		try {
-			if(this?.auth?.currentUser?.emailVerified){
-				callback('success');
+			if (this?.auth?.currentUser?.emailVerified) {
+				callback(this.auth);
 				return;
 			}
-			await applyActionCode(this.auth, oobCode);
-			callback(this.auth);
+			if (this.auth) {
+				await applyActionCode(this?.auth, oobCode);
+				callback(this.auth);
+			}
 		} catch (e) {
 			if (e.code === "auth/invalid-action-code") {
 				callback({ payload: "Invalid action code", error: true });
@@ -77,7 +80,7 @@ export default class Firebase {
 	async signInUser(email, password, callback) {
 		try {
 			let userCredentials = await signInWithEmailAndPassword(this.auth, email, password);
-			callback(userCredentials.user.uid);
+			callback(userCredentials.user);
 		} catch (error) {
 			if (error.code === "auth/wrong-password" || error.code === "auth/user-not-found") {
 				callback({ payload: "Invalid user credentials", error: true });

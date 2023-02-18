@@ -64,14 +64,14 @@ const RegisterPage = () => {
 				if (res?.error) return;
 				setWaiting(false);
 				// Redirect to verification page
-				navigate("/verifications?mode=verifyEmail");
+				navigate(`/verifications?mode=verifyemail&email=${email}`);
 			});
 		});
 	}
 	return (
 		<main className="auth container" id="auth">
 			<section className="auth__container intro">
-				<article className="left">
+				<article className="container__text">
 					<form action="" ref={formRef} onSubmit={createAccount}>
 						<h3 className="register__intro">Create An Account</h3>
 						<h6 className="register__subtitle">Manage All Your Academic Activities Online</h6>
@@ -104,11 +104,19 @@ const RegisterPage = () => {
 						</button>
 						<p className="redirect">
 							<span>Already have an account?</span>
-							<Link to="/login">Login </Link>
+							<Link
+								to="/login"
+								onClick={(e) => {
+									e.preventDefault();
+									clearError();
+									navigate("/login");
+								}}>
+								Login
+							</Link>
 						</p>
 					</form>
 				</article>
-				<article className="right">
+				<article className="container__image">
 					<img src={AuthImage} alt="Register" />
 				</article>
 			</section>

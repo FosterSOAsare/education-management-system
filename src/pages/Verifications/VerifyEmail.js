@@ -1,46 +1,48 @@
-import React, { useState, useEffect } from "react";
-import { IoMailUnreadOutline } from "react-icons/io5";
+import React, { useEffect } from "react";
 import { useAppContext } from "../../context/AppContext";
-const VerifyEmail = ({ oobCode, mode }) => {
-	const [status, setStatus] = useState(null);
+import { HiMail } from "react-icons/hi";
+import { useNavigate } from "react-router-dom";
+const VerifyEmail = ({ data, setStatus }) => {
 	const { firebase } = useAppContext();
-	console.log(oobCode);
+	const email = data.get("email"),
+		oobCode = data.get("oobCode");
+	const navigate = useNavigate();
 	useEffect(() => {
-		if (oobCode && mode === "verifyEmail") {
+		// setNotFound
+		if (!oobCode && !email) {
+			return;
+		}
+
+		oobCode &&
 			firebase.verifyEmail(oobCode, (res) => {
-				if (res.error) {
+				if (res?.error) {
 					setStatus("error");
 					return;
 				}
 				// Email verified successfully
 				setStatus("success");
+
+				setTimeout(() => {
+					navigate("/login");
+				}, 3000);
 			});
-		}
 	});
 	return (
 		<>
-			{!status && !oobCode && (
-				<>
-					<IoMailUnreadOutline className="icon" />
-					<p>A verification link has been sent to your email account. Click on link to verify your account </p>
-				</>
-			)}
-
-			{oobCode && (
-				<>
-					{status === "success" && (
-						<>
-							<IoMailUnreadOutline className="icon" />
-							<p> Your email has beev verified successfully</p>
-						</>
-					)}
-					{status === "error" && (
-						<>
-							<IoMailUnreadOutline className="icon" />
-							<p>Email verification link has expired. Please try logging in to receive a new one </p>
-						</>
-					)}
-				</>
+			{email && (
+				<section className="content">
+					<div className="verification__icon">
+						<HiMail />
+					</div>
+					<h3 className="intro">Check your email</h3>
+					<p className="subtitles">
+						We have sent an email verification link to <span style={{ fontWeight: "bold", opacity: "1" }}>{email}</span> . Click to verify account creation.
+					</p>
+					<button className="primary verification__button">Open email app</button>
+					<p className="resend">
+						Didn't receive email? <span>Click to resend</span>
+					</p>
+				</section>
 			)}
 		</>
 	);

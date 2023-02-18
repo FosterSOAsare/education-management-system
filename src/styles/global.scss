@@ -2,6 +2,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Lato:wght@400;700;900&family=Poppins:wght@400;600;700&family=Roboto:wght@400;700;900&display=swap");
 $background: #f0f0f0;
 $background2: #bbbbbb;
+$color1: #dcf0ff;
 $white: #ffffff;
 $primaryText: #131b23;
 
@@ -60,6 +61,11 @@ input {
 	}
 }
 
+a {
+	text-decoration: none;
+	color: $primaryText;
+	font-size: 14px;
+}
 label {
 	margin-bottom: 5px;
 	display: block;
@@ -73,6 +79,9 @@ button {
 	width: 100%;
 	height: 40px;
 	border-radius: 5px;
+	&:hover {
+		cursor: pointer;
+	}
 }
 button.primary {
 	background-color: $primaryText;

@@ -1,19 +1,39 @@
-import React from "react";
-
+import React, { useState } from "react";
+import AuthImage from "../../assets/images/auth.png";
 import { useLocation } from "react-router-dom";
-import VerifyEmail from "./VerifyEmail";
 
-const Verifications = () => {
+import VerifyEmail from "./VerifyEmail";
+import ResponseMessage from "./ResponseMessage";
+
+const RegisterPage = () => {
+	// const { firebase } = useAppContext();
+	const [status, setStatus] = useState(null);
 	const location = useLocation();
-	const data = new URLSearchParams(location.search);
-	const mode = data.get("mode");
-	const oobCode = data.get("oobCode");
+	const data = new URLSearchParams(location.search),
+		mode = data.get("mode"),
+		oobCode = data.get("oobCode");
+
+	// const { errorDispatchFunc, error, clearError, waiting, setWaiting, validations } = useAuthContext();
+	// const navigate = useNavigate();
+	// const formRef = useRef();
 
 	return (
-		<main className="container verifications">
-			<VerifyEmail oobCode={oobCode} mode={mode} />
+		<main className="auth container" id="auth">
+			{
+				<>
+					<section className="auth__container intro">
+						<article className="container__image">
+							<img src={AuthImage} alt="Register" />
+						</article>
+						<article className="container__text">
+							{mode.toLowerCase() === "verifyemail" && <VerifyEmail data={data} setStatus={setStatus} />}
+							{oobCode && status && <ResponseMessage status={status} type="email verification" />}
+						</article>
+					</section>
+				</>
+			}
 		</main>
 	);
 };
 
-export default Verifications;
+export default RegisterPage;

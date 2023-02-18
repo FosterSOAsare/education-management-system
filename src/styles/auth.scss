@@ -13,8 +13,8 @@
 		background-color: rgb(255, 255, 255);
 		@include flex(space-between, center);
 
-		.left,
-		.right {
+		.container__text,
+		.container__image {
 			height: 100%;
 			width: 100%;
 			background-color: $white;
@@ -22,8 +22,9 @@
 			overflow-y: hidden;
 		}
 
-		.left {
-			form {
+		.container__text {
+			form,
+			.content {
 				@include flex(flex-start, flex-start);
 				flex-direction: column;
 				height: 100%;
@@ -31,11 +32,41 @@
 				.register__intro {
 					margin-bottom: 10px;
 				}
-				.register__subtitle {
+				.register__subtitle,
+				.subtitles {
 					font-size: 14px;
 					margin-bottom: 20px;
 					opacity: 0.7;
 					font-weight: 400;
+					max-width: 500px;
+					text-align: center;
+					line-height: 23px;
+				}
+
+				.verification__icon {
+					width: 50px;
+					height: 50px;
+					margin-bottom: 10px;
+					background-color: $color1;
+					border-radius: 50%;
+					@include flex(center, center);
+					font-size: 26px;
+				}
+				.verification__icon.verification__error {
+					background-color: red;
+					color: white;
+					font-size: 26px;
+				}
+
+				.manual__redirect {
+					&:hover {
+						text-decoration: underline;
+						font-weight: bold;
+					}
+				}
+
+				.subtitles {
+					max-width: 350px;
 				}
 
 				.intro {
@@ -78,11 +109,9 @@
 							text-decoration: underline;
 						}
 					}
-
-					.error {
-						width: 80%;
-						background-color: green;
-					}
+				}
+				.error {
+					width: 80%;
 				}
 
 				.google-button {
@@ -113,10 +142,24 @@
 					height: 22px;
 					margin-right: 8px;
 				}
+				.verification__button {
+					width: 380px;
+					border-radius: 0px;
+					margin-bottom: 20px;
+				}
+				.resend {
+					span {
+						font-weight: bold;
+						&:hover {
+							text-decoration: underline;
+							cursor: pointer;
+						}
+					}
+				}
 			}
 		}
 
-		.right {
+		.container__image {
 			background-color: $background2;
 			img {
 				height: 100%;
