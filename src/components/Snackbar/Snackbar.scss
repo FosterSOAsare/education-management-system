@@ -1,6 +1,5 @@
 .snackbar {
 	position: absolute;
-	color: red;
 	bottom: 20px;
 	right: 20px;
 	background-color: green;
@@ -8,10 +7,14 @@
 	background-color: $primaryText;
 	padding: 10px;
 	@include flex(space-between, center);
-	color: white;
+	color: $white;
 	.icon {
 		position: absolute;
+		font-size: 12px;
 		right: 2px;
 		top: 2px;
+		&:hover {
+			cursor: pointer;
+		}
 	}
 }

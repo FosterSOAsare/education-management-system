@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { useAppContext } from "../../context/AppContext";
 import { HiMail } from "react-icons/hi";
 import { useNavigate } from "react-router-dom";
-const VerifyEmail = ({ data, setStatus, setDisplaySnackbar }) => {
+const VerifyEmail = ({ data, setStatus, setSnackbar, snackbar }) => {
 	const { firebase } = useAppContext();
 	const email = data.get("email"),
 		oobCode = data.get("oobCode");
@@ -30,11 +30,17 @@ const VerifyEmail = ({ data, setStatus, setDisplaySnackbar }) => {
 
 	async function resendEmail() {
 		try {
-			await firebase.sendVerificationEmail();
-			setDisplaySnackbar(true);
-			setTimeout(() => {
-				setDisplaySnackbar(false);
-			}, 5000);
+			let verified = await firebase.checkVerifiedEmail();
+
+			if (!verified) {
+				await firebase.sendVerificationEmail();
+				setSnackbar({ display: "block", text: "Email resent successfully" });
+				setTimeout(() => {
+					setSnackbar({ display: "none", text: "" });
+				}, 5000);
+				return;
+			}
+			setSnackbar({ display: "block", text: "Email address already verified. Proceed to log in" });
 		} catch (e) {
 			if (e.payload === "auth-error") {
 				console.log("not Found");

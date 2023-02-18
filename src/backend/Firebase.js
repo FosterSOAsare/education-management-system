@@ -55,6 +55,9 @@ export default class Firebase {
 			}
 		});
 	}
+	async checkVerifiedEmail(callback) {
+		return this.auth?.currentUser?.emailVerified;
+	}
 
 	async verifyEmail(oobCode, callback) {
 		try {

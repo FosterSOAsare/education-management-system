@@ -9,7 +9,7 @@ import ResponseMessage from "./ResponseMessage";
 const RegisterPage = () => {
 	// const { firebase } = useAppContext();
 	const [status, setStatus] = useState(null);
-	const [displaySnackbar, setDisplaySnackbar] = useState(false);
+	const [snackbar, setSnackbar] = useState({ display: "none", text: "" });
 	const location = useLocation();
 	const data = new URLSearchParams(location.search),
 		mode = data.get("mode"),
@@ -28,13 +28,13 @@ const RegisterPage = () => {
 							<img src={AuthImage} alt="Register" />
 						</article>
 						<article className="container__text">
-							{mode.toLowerCase() === "verifyemail" && <VerifyEmail data={data} setStatus={setStatus} setDisplaySnackbar={setDisplaySnackbar} />}
+							{mode.toLowerCase() === "verifyemail" && <VerifyEmail data={data} setStatus={setStatus} setSnackbar={setSnackbar} snackbar={snackbar} />}
 							{oobCode && status && <ResponseMessage status={status} type="email verification" />}
 						</article>
 					</section>
 				</>
 			}
-			{displaySnackbar && <Snackbar text="Email resent successfully" setDisplaySnackbar={setDisplaySnackbar} />}
+			{snackbar.display === "block" && <Snackbar text={snackbar.text} setSnackbar={setSnackbar} />}
 		</main>
 	);
 };
