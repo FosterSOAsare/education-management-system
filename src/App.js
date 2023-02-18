@@ -5,6 +5,7 @@ import { useAppContext } from "./context/AppContext";
 import Homepage from "./pages/Homepage/Homepage";
 import LoginPage from "./pages/Auth/LoginPage";
 import RegisterPage from "./pages/Auth/RegisterPage";
+import ForgotPassword from "./pages/Auth/ForgotPassword";
 import Dashboard from "./pages/Dashboard/Dashboard";
 import Verifications from "./pages/Verifications/Verifications";
 
@@ -35,6 +36,13 @@ function App() {
 					element={
 						<CheckLoggedIn>
 							<RegisterPage />
+						</CheckLoggedIn>
+					}></Route>
+				<Route
+					path="/forgotPass"
+					element={
+						<CheckLoggedIn>
+							<ForgotPassword />
 						</CheckLoggedIn>
 					}></Route>
 
