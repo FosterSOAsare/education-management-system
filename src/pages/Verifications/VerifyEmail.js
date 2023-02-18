@@ -41,6 +41,9 @@ const VerifyEmail = ({ data, setStatus, setSnackbar, snackbar }) => {
 				return;
 			}
 			setSnackbar({ display: "block", text: "Email address already verified. Proceed to log in" });
+			setTimeout(() => {
+				navigate("/login");
+			}, 5000);
 		} catch (e) {
 			if (e.payload === "auth-error") {
 				console.log("not Found");
