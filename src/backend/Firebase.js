@@ -1,5 +1,5 @@
 import { initializeApp } from "firebase/app";
-import { getAuth, createUserWithEmailAndPassword, sendEmailVerification, signInWithEmailAndPassword, signOut, updatePassword, onAuthStateChanged } from "firebase/auth";
+import { getAuth, createUserWithEmailAndPassword, sendEmailVerification, signInWithEmailAndPassword, signOut, updatePassword, onAuthStateChanged, applyActionCode } from "firebase/auth";
 import { getStorage } from "firebase/storage";
 import { getFirestore, getDoc, doc, serverTimestamp, setDoc } from "firebase/firestore";
 
@@ -36,11 +36,32 @@ export default class Firebase {
 	async sendVerificationEmail() {
 		return new Promise(async (resolve, reject) => {
 			try {
-				resolve(await sendEmailVerification(this.auth.currentUser));
+				resolve(
+					await sendEmailVerification(this.auth.currentUser, {
+						url: "http://localhost:3000/verifications",
+					})
+				);
 			} catch (e) {
 				reject(e);
 			}
 		});
+	}
+
+	async verifyEmail(oobCode, callback) {
+		try {
+			if(this?.auth?.currentUser?.emailVerified){
+				callback('success');
+				return;
+			}
+			await applyActionCode(this.auth, oobCode);
+			callback(this.auth);
+		} catch (e) {
+			if (e.code === "auth/invalid-action-code") {
+				callback({ payload: "Invalid action code", error: true });
+				return;
+			}
+			callback({ error: true });
+		}
 	}
 
 	async storeUser(uid, email, fullname, callback) {
