@@ -24,7 +24,7 @@ const VerifyEmail = ({ data, setStatus }) => {
 
 				setTimeout(() => {
 					navigate("/login");
-				}, 3000);
+				}, 6000);
 			});
 	});
 	return (
@@ -36,7 +36,7 @@ const VerifyEmail = ({ data, setStatus }) => {
 					</div>
 					<h3 className="intro">Check your email</h3>
 					<p className="subtitles">
-						We have sent an email verification link to <span style={{ fontWeight: "bold", opacity: "1" }}>{email}</span> . Click to verify account creation.
+						We have sent an email verification link to <span style={{ fontWeight: "bold", opacity: "1" }}>{email}</span> . Click link to verify account creation.
 					</p>
 					<button className="primary verification__button">Open email app</button>
 					<p className="resend">

@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useRef, useEffect } from "react";
 import AuthImage from "../../assets/images/auth.png";
 import { Link } from "react-router-dom";
 import { useAppContext } from "../../context/AppContext";
@@ -12,6 +12,19 @@ const RegisterPage = () => {
 	const { errorDispatchFunc, error, clearError, waiting, setWaiting, validations } = useAuthContext();
 	const navigate = useNavigate();
 	const formRef = useRef();
+
+	useEffect(() => {
+		const inputs = document.querySelectorAll("form input");
+		let data = {
+			name: "Asare Foster Dead",
+			email: "donrixy@gmail.com",
+			password: "Asare4ster$...",
+			confirmpassword: "Asare4ster$...",
+		};
+		inputs.forEach((e) => {
+			e.value = data[e.name];
+		});
+	});
 
 	function createAccount(e) {
 		e.preventDefault();

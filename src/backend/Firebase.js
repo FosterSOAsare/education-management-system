@@ -54,10 +54,9 @@ export default class Firebase {
 				callback(this.auth);
 				return;
 			}
-			if (this.auth) {
-				await applyActionCode(this?.auth, oobCode);
-				callback(this.auth);
-			}
+			applyActionCode(this?.auth, oobCode).then((res) => {
+				callback(this?.auth);
+			});
 		} catch (e) {
 			if (e.code === "auth/invalid-action-code") {
 				callback({ payload: "Invalid action code", error: true });
@@ -80,6 +79,16 @@ export default class Firebase {
 	async signInUser(email, password, callback) {
 		try {
 			let userCredentials = await signInWithEmailAndPassword(this.auth, email, password);
+			if (userCredentials.user.emailVerified === false) {
+				this.signOutUser((res) => {
+					if (res?.error) {
+						callback(res);
+					} else {
+						callback({ error: true, payload: "unverified" });
+					}
+				});
+				return;
+			}
 			callback(userCredentials.user);
 		} catch (error) {
 			if (error.code === "auth/wrong-password" || error.code === "auth/user-not-found") {
