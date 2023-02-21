@@ -1,7 +1,8 @@
 import { initializeApp } from "firebase/app";
-import { getAuth, createUserWithEmailAndPassword, sendEmailVerification, signInWithEmailAndPassword, signOut, updatePassword, onAuthStateChanged, applyActionCode } from "firebase/auth";
+import { getAuth, createUserWithEmailAndPassword, sendEmailVerification, signInWithEmailAndPassword, signOut, updatePassword, onAuthStateChanged, applyActionCode, updateProfile } from "firebase/auth";
 import { getStorage } from "firebase/storage";
-import { getFirestore, getDoc, doc, serverTimestamp, setDoc } from "firebase/firestore";
+import { getFirestore } from "firebase/firestore";
+import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 
 export default class Firebase {
 	constructor() {
@@ -17,6 +18,7 @@ export default class Firebase {
 		this.storage = getStorage(this.app);
 		this.db = getFirestore(this.app);
 		this.auth = getAuth();
+		this.googleProvider = new GoogleAuthProvider();
 	}
 
 	async createNewUserAuth(email, password, callback) {
@@ -34,6 +36,18 @@ export default class Firebase {
 				return;
 			}
 			callback({ error: true });
+		}
+	}
+	async useGoogleAuth(callback) {
+		try {
+			console.log(this.googleProvider);
+			let result = await signInWithPopup(this.auth, this.googleProvider);
+			const credential = GoogleAuthProvider.credentialFromResult(result);
+			const token = credential.accessToken;
+			const user = result.user;
+			console.log(credential, token, user);
+		} catch (error) {
+			console.log(error);
 		}
 	}
 
@@ -77,12 +91,14 @@ export default class Firebase {
 		}
 	}
 
-	async storeUser(uid, email, fullname, callback) {
+	async updateUserProfile(fullname, callback) {
 		try {
-			let data = { email, fullname, timestamp: serverTimestamp() };
-			let res = await setDoc(doc(this.db, "users", uid), data);
-			callback(res);
+			await updateProfile(this?.auth?.currentUser, {
+				displayName: fullname,
+			});
+			callback("success");
 		} catch (e) {
+			console.log(e);
 			callback({ error: true });
 		}
 	}
@@ -140,15 +156,13 @@ export default class Firebase {
 		});
 	}
 
-	async fetchUserWithId(userId, callback) {
+	async getUserData(callback) {
 		try {
-			let res = await getDoc(doc(this.db, "users", userId));
-			if (!res.exists()) {
-				callback({ empty: true });
-				return;
-			}
-			callback(res);
+			let auth = await this.getAuth((res) => {
+				callback(res);
+			});
 		} catch (error) {
+			console.log(error);
 			callback({ error: true });
 		}
 	}

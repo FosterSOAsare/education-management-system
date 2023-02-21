@@ -72,8 +72,9 @@ const RegisterPage = () => {
 				}
 				return;
 			}
-			// Store userData and redirect to veirifcations
-			firebase.storeUser(res?.user?.uid, email, fullname, (res) => {
+			// Store userData and redirect to verifcations
+			firebase.updateUserProfile(fullname, (res) => {
+				console.log(res)
 				if (res?.error) return;
 				setWaiting(false);
 				// Redirect to verification page
@@ -81,11 +82,18 @@ const RegisterPage = () => {
 			});
 		});
 	}
+
+	function useGoogleAuth(e) {
+		e.preventDefault();
+		firebase.useGoogleAuth((res) => {
+			console.log(res);
+		});
+	}
 	return (
 		<main className="auth container" id="auth">
 			<section className="auth__container intro">
 				<article className="container__text">
-					<form action="" ref={formRef} onSubmit={createAccount}>
+					<form action="" ref={formRef}>
 						<h3 className="register__intro">Create An Account</h3>
 						<h6 className="register__subtitle">Manage All Your Academic Activities Online</h6>
 						<div className="textInput">
@@ -102,7 +110,7 @@ const RegisterPage = () => {
 
 						{error.display === "block" && <Error text={error.text} />}
 						{!waiting && (
-							<button className="primary" disabled={error.display === "block"}>
+							<button className="primary" disabled={error.display === "block"} onClick={createAccount}>
 								Get Started
 							</button>
 						)}
@@ -111,7 +119,7 @@ const RegisterPage = () => {
 								Waiting...
 							</button>
 						)}
-						<button className="google-button" disabled={error.display === "block"}>
+						<button className="google-button" disabled={error.display === "block"} onClick={useGoogleAuth}>
 							<img src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg" alt="Google logo" />
 							<span>Sign up with Google</span>
 						</button>
