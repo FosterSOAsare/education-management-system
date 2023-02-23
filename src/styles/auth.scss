@@ -1,5 +1,5 @@
 .container:has(#auth) {
-	background-color: red;
+	// background-color: red;
 	padding: 0;
 }
 #auth {
@@ -8,7 +8,7 @@
 	@include flex(center, center);
 
 	.auth__container {
-		height: 100vh;
+		height: 70vh;
 		width: 100%;
 		background-color: rgb(255, 255, 255);
 		@include flex(space-between, center);
@@ -141,7 +141,7 @@
 					width: 22px;
 					height: 22px;
 					margin-right: 8px;
-				}
+				}  
 				.verification__button {
 					width: 380px;
 					border-radius: 0px;

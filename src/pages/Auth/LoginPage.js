@@ -93,9 +93,6 @@ const Login = () => {
 						</p>
 					</form>
 				</article>
-				<article className="container__image">
-					<img src={LoginImage} alt="Register" />
-				</article>
 			</section>
 		</main>
 	);
