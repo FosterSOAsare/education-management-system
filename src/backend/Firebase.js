@@ -1,5 +1,17 @@
 import { initializeApp } from "firebase/app";
-import { getAuth, createUserWithEmailAndPassword, sendEmailVerification, signInWithEmailAndPassword, signOut, updatePassword, onAuthStateChanged, applyActionCode, updateProfile } from "firebase/auth";
+import {
+	getAuth,
+	createUserWithEmailAndPassword,
+	sendEmailVerification,
+	signInWithEmailAndPassword,
+	signOut,
+	updatePassword,
+	onAuthStateChanged,
+	applyActionCode,
+	updateProfile,
+	fetchSignInMethodsForEmail,
+	sendPasswordResetEmail,
+} from "firebase/auth";
 import { getStorage } from "firebase/storage";
 import { getFirestore } from "firebase/firestore";
 import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
@@ -162,6 +174,22 @@ export default class Firebase {
 			});
 		} catch (error) {
 			console.log(error);
+			callback({ error: true });
+		}
+	}
+
+	async sendResetMail(email, callback) {
+		try {
+			let res = await fetchSignInMethodsForEmail(this.auth, email);
+			if (res.includes("password")) {
+				// Send reset email
+				await sendPasswordResetEmail(this.auth, email);
+				callback("success");
+			} else {
+				callback({ error: true, payload: "Email hasn't been registered" });
+			}
+		} catch (e) {
+			console.log(e);
 			callback({ error: true });
 		}
 	}

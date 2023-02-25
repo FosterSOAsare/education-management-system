@@ -5,7 +5,8 @@ import { useNavigate } from "react-router-dom";
 const VerifyEmail = ({ data, setStatus, setSnackbar, snackbar }) => {
 	const { firebase } = useAppContext();
 	const email = data.get("email"),
-		oobCode = data.get("oobCode");
+		oobCode = data.get("oobCode"),
+		mode = data.get("mode");
 	const navigate = useNavigate();
 	useEffect(() => {
 		// setNotFound
@@ -28,7 +29,7 @@ const VerifyEmail = ({ data, setStatus, setSnackbar, snackbar }) => {
 			});
 	});
 
-	async function resendEmail() {
+	async function resendVerificationEmail() {
 		try {
 			let verified = await firebase.checkVerifiedEmail();
 
@@ -51,6 +52,25 @@ const VerifyEmail = ({ data, setStatus, setSnackbar, snackbar }) => {
 			}
 		}
 	}
+	async function resendResetEmail() {
+		try {
+			firebase.sendResetMail(email, (res) => {
+				if (res?.error) return;
+					setSnackbar({ display: "block", text: "Email resent successfully" });
+					setTimeout(() => {
+						setSnackbar({ display: "none", text: "" });
+					}, 5000);
+					return;
+			});
+
+			return;
+		} catch (e) {
+			if (e.payload === "auth-error") {
+				console.log("not Found");
+				// Set not found
+			}
+		}
+	}
 	return (
 		<>
 			{email && (
@@ -60,11 +80,12 @@ const VerifyEmail = ({ data, setStatus, setSnackbar, snackbar }) => {
 					</div>
 					<h3 className="intro">Check your email</h3>
 					<p className="subtitles">
-						We have sent an email verification link to <span style={{ fontWeight: "bold", opacity: "1" }}>{email}</span> . Click link to verify account creation.
+						We have sent an email verification link to <span style={{ fontWeight: "bold", opacity: "1" }}>{email}</span> .{" "}
+						{mode.toLowerCase() === "verifyemail" ? "Click link to verify account creation." : "Click on link to proceed to resetting your password"}
 					</p>
 					<button className="primary verification__button">Open email app</button>
 					<p className="resend">
-						Didn't receive email? <span onClick={resendEmail}>Click to resend</span>
+						Didn't receive email? <span onClick={mode.toLowerCase() === "verifyemail" ? resendVerificationEmail : resendResetEmail}>Click to resend</span>
 					</p>
 				</section>
 			)}

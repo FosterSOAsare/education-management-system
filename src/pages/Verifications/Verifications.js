@@ -24,11 +24,9 @@ const RegisterPage = () => {
 			{
 				<>
 					<section className="auth__container intro">
-						<article className="container__image">
-							<img src={AuthImage} alt="Register" />
-						</article>
 						<article className="container__text">
-							{mode.toLowerCase() === "verifyemail" && <VerifyEmail data={data} setStatus={setStatus} setSnackbar={setSnackbar} snackbar={snackbar} />}
+							{mode.toLowerCase() === "verifyemail" ||
+								(mode.toLowerCase() === "resetpassword" && <VerifyEmail data={data} setStatus={setStatus} setSnackbar={setSnackbar} snackbar={snackbar} />)}
 							{oobCode && status && <ResponseMessage status={status} type="email verification" />}
 						</article>
 					</section>

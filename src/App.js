@@ -39,7 +39,7 @@ function App() {
 						</CheckLoggedIn>
 					}></Route>
 				<Route
-					path="/forgotPass"
+					path="/forgotpassword"
 					element={
 						<CheckLoggedIn>
 							<ForgotPassword />
