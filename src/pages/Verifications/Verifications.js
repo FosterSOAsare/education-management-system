@@ -1,10 +1,10 @@
 import React, { useState } from "react";
-import AuthImage from "../../assets/images/auth.png";
 import { useLocation } from "react-router-dom";
 import Snackbar from "../../components/Snackbar/Snackbar";
 
 import VerifyEmail from "./VerifyEmail";
 import ResponseMessage from "./ResponseMessage";
+import PasswordReset from "./PasswordReset";
 
 const RegisterPage = () => {
 	// const { firebase } = useAppContext();
@@ -27,7 +27,9 @@ const RegisterPage = () => {
 						<article className="container__text">
 							{mode.toLowerCase() === "verifyemail" ||
 								(mode.toLowerCase() === "resetpassword" && <VerifyEmail data={data} setStatus={setStatus} setSnackbar={setSnackbar} snackbar={snackbar} />)}
-							{oobCode && status && <ResponseMessage status={status} type="email verification" />}
+							{/* This is a message that is shown after a successful verification */}
+							{oobCode && status && mode.toLowerCase() === "verifyemail" && <ResponseMessage status={status} type="email verification" />}
+							{oobCode && status === "success" && mode.toLowerCase() === "resetpassword" && <PasswordReset />}
 						</article>
 					</section>
 				</>

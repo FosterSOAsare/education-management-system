@@ -14,7 +14,9 @@ const VerifyEmail = ({ data, setStatus, setSnackbar, snackbar }) => {
 			return;
 		}
 
+		// For verifying the verifyEmail code from the link
 		oobCode &&
+			mode.toLowerCase() === "verifyemail" &&
 			firebase.verifyEmail(oobCode, (res) => {
 				if (res?.error) {
 					setStatus("error");
@@ -26,6 +28,17 @@ const VerifyEmail = ({ data, setStatus, setSnackbar, snackbar }) => {
 				setTimeout(() => {
 					navigate("/login");
 				}, 6000);
+			});
+
+		// For verifying the resetPassword code from the link
+		oobCode &&
+			mode.toLowerCase() === "resetpassword" &&
+			firebase.verifyEmailReset(oobCode, (res) => {
+				console.log(res)
+				if (res?.error) return;
+				// Display set up new password form
+				// Email verified successfully
+				setStatus("success");
 			});
 	});
 
@@ -56,11 +69,11 @@ const VerifyEmail = ({ data, setStatus, setSnackbar, snackbar }) => {
 		try {
 			firebase.sendResetMail(email, (res) => {
 				if (res?.error) return;
-					setSnackbar({ display: "block", text: "Email resent successfully" });
-					setTimeout(() => {
-						setSnackbar({ display: "none", text: "" });
-					}, 5000);
-					return;
+				setSnackbar({ display: "block", text: "Email resent successfully" });
+				setTimeout(() => {
+					setSnackbar({ display: "none", text: "" });
+				}, 5000);
+				return;
 			});
 
 			return;

@@ -11,6 +11,7 @@ import {
 	updateProfile,
 	fetchSignInMethodsForEmail,
 	sendPasswordResetEmail,
+	checkActionCode,
 } from "firebase/auth";
 import { getStorage } from "firebase/storage";
 import { getFirestore } from "firebase/firestore";
@@ -192,5 +193,18 @@ export default class Firebase {
 			console.log(e);
 			callback({ error: true });
 		}
+	}
+	async verifyEmailReset(oobCode, callback) {
+		checkActionCode(this.auth, oobCode)
+			.then((e) => {
+				callback("success");
+			})
+			.catch((e) => {
+				if (e.code === "(auth/invalid-action-code") {
+					callback({ error: true, payload: "Invalid link" });
+					return;
+				}
+				callback({ error: true });
+			});
 	}
 }
