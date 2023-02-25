@@ -50,6 +50,7 @@ const PasswordReset = ({ oobCode, setStatus }) => {
 				return;
 			}
 			setStatus("success");
+			return;
 		});
 	}
 	return (

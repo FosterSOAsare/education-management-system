@@ -92,14 +92,17 @@ export default class Firebase {
 				callback(this.auth);
 				return;
 			}
-			applyActionCode(this?.auth, oobCode).then((res) => {
-				callback(this?.auth);
-			});
+			applyActionCode(this?.auth, oobCode)
+				.then((res) => {
+					callback(this?.auth);
+				})
+				.catch((e) => {
+					if (e.code === "auth/invalid-action-code") {
+						callback({ payload: "Invalid action code", error: true });
+						return;
+					}
+				});
 		} catch (e) {
-			if (e.code === "auth/invalid-action-code") {
-				callback({ payload: "Invalid action code", error: true });
-				return;
-			}
 			callback({ error: true });
 		}
 	}
@@ -201,7 +204,7 @@ export default class Firebase {
 				callback("success");
 			})
 			.catch((e) => {
-				if (e.code === "(auth/invalid-action-code") {
+				if (e.code === "auth/invalid-action-code") {
 					callback({ error: true, payload: "Invalid link" });
 					return;
 				}
@@ -217,7 +220,7 @@ export default class Firebase {
 				})
 				.catch((e) => {
 					if (e.code === "auth/invalid-action-code") {
-							callback({ error: true , payload : 'Invalid action code' });
+						callback({ error: true, payload: "Invalid action code" });
 					}
 				});
 		} catch (e) {

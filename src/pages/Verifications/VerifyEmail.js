@@ -1,49 +1,15 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { useAppContext } from "../../context/AppContext";
 import { HiMail } from "react-icons/hi";
 import { useNavigate } from "react-router-dom";
 const VerifyEmail = ({ data, setStatus, setSnackbar, snackbar }) => {
-	const { firebase } = useAppContext();
+	const { firebase, loading } = useAppContext();
 	const email = data.get("email"),
-		oobCode = data.get("oobCode"),
 		mode = data.get("mode");
 	const navigate = useNavigate();
-	useEffect(() => {
-		// setNotFound
-		if (!oobCode && !email) {
-			return;
-		}
 
-		// For verifying the verifyEmail code from the link
-		oobCode &&
-			mode.toLowerCase() === "verifyemail" &&
-			firebase.verifyEmail(oobCode, (res) => {
-				if (res?.error) {
-					setStatus("error");
-					return;
-				}
-				// Email verified successfully
-				setStatus("success");
-
-				setTimeout(() => {
-					navigate("/login");
-				}, 6000);
-			});
-
-		// For verifying the resetPassword code from the link
-		oobCode &&
-			mode.toLowerCase() === "resetpassword" &&
-			firebase.verifyEmailReset(oobCode, (res) => {
-				console.log(res);
-				if (res?.error) {
-					setStatus("error");
-					return;
-				}
-				// Display set up new password form
-				// Email verified successfully
-			});
-	});
-
+	// Handles the prompt that tells user that an email has been sent.abs
+	//  Handles resend emails for both verification and reset password
 	async function resendVerificationEmail() {
 		try {
 			let verified = await firebase.checkVerifiedEmail();
@@ -61,6 +27,7 @@ const VerifyEmail = ({ data, setStatus, setSnackbar, snackbar }) => {
 				navigate("/login");
 			}, 5000);
 		} catch (e) {
+			console.log(e);
 			if (e.payload === "auth-error") {
 				console.log("not Found");
 				// Set not found
@@ -88,7 +55,7 @@ const VerifyEmail = ({ data, setStatus, setSnackbar, snackbar }) => {
 	}
 	return (
 		<>
-			{email && (
+			{!loading && email && (
 				<section className="content">
 					<div className="verification__icon">
 						<HiMail />
