@@ -1,0 +1,25 @@
+.loading {
+	width: 100%;
+	height: auto;
+	@include flex(center, center);
+	flex-direction: column;
+	.loading-indicator {
+		display: inline-block;
+		width: 20px;
+		height: 20px;
+		border-radius: 50%;
+		border: 3px solid rgba(0, 0, 0, 0.2);
+		border-top-color: #fff;
+		animation: loading-spinner 0.6s linear infinite;
+	}
+	p {
+		margin-top: 10px;
+		font-weight: bold;
+	}
+
+	@keyframes loading-spinner {
+		to {
+			transform: rotate(360deg);
+		}
+	}
+}

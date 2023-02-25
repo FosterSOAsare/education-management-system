@@ -1,4 +1,4 @@
-import { createContext, useContext, useMemo, useReducer, useEffect } from "react";
+import { createContext, useContext, useMemo, useReducer, useEffect, useState } from "react";
 import Firebase from "../backend/Firebase";
 
 const AppContext = createContext();
@@ -6,6 +6,7 @@ const AppContext = createContext();
 const AppProvider = ({ children }) => {
 	const [userCredentials, credentialsDispatchFunc] = useReducer(credentialsFunc, { userId: JSON.parse(localStorage.getItem("userId")) || null, user: null });
 	const firebase = useMemo(() => new Firebase(), []);
+	const [loading, setLoading] = useState(true);
 
 	function credentialsFunc(state, action) {
 		switch (action.type) {
@@ -38,7 +39,7 @@ const AppProvider = ({ children }) => {
 			});
 	}, [userCredentials?.userId, firebase, credentialsDispatchFunc]);
 
-	return <AppContext.Provider value={{ firebase, credentialsDispatchFunc, userCredentials }}>{children}</AppContext.Provider>;
+	return <AppContext.Provider value={{ firebase, credentialsDispatchFunc, userCredentials, loading, setLoading }}>{children}</AppContext.Provider>;
 };
 
 export function useAppContext() {
