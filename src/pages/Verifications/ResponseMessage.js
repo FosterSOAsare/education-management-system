@@ -7,10 +7,19 @@ const ResponseMessage = ({ status, type }) => {
 	return (
 		<section className="content">
 			<div className={`verification__icon${" verification__" + status}`}>{status === "success" ? <TiTick /> : <BiErrorCircle />}</div>
-			<p className="subtitles">{type === "email verification" && status === "error" && "Email verfication code has either been used or has expired "}</p>
+			<p className="subtitles">{type === "email verification" && status === "error" && "Email verfication code has either been used or has expired . Please request a new link"}</p>
 			{type === "email verification" && status === "success" && (
 				<>
 					<p className="subtitles">Account has been successfully verified</p>
+					<Link to="/login" className="manual__redirect">
+						Click to login when not redirected automatically
+					</Link>
+				</>
+			)}
+			<p className="subtitles">{type === "password reset" && status === "error" && "Password reset link has either been used or has expired . Please request a new link"}</p>
+			{type === "password reset" && status === "success" && (
+				<>
+					<p className="subtitles">Password has been reset successfully</p>
 					<Link to="/login" className="manual__redirect">
 						Click to login when not redirected automatically
 					</Link>

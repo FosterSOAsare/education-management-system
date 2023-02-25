@@ -8,13 +8,12 @@
 	@include flex(center, center);
 
 	.auth__container {
-		min-height: 70vh;
-		height: auto;
+		height: 90vh;
 		width: 90%;
 		max-width: 720px;
 		background-color: rgb(255, 255, 255);
 		@include flex(space-between, center);
-		padding-block: 5vh;
+		border-radius: 5px;
 
 		.container__text,
 		.container__image {

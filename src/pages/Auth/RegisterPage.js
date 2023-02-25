@@ -1,5 +1,4 @@
 import React, { useRef, useEffect } from "react";
-import AuthImage from "../../assets/images/auth.png";
 import { Link } from "react-router-dom";
 import { useAppContext } from "../../context/AppContext";
 import { useNavigate } from "react-router-dom";
@@ -52,8 +51,8 @@ const RegisterPage = () => {
 		}
 		if (!validations.validatePassword(password)) {
 			errorDispatchFunc({
-				type: "displayError",
 				payload: "Password must contain at least eight characters, at least one number , both lower and uppercase letters and at least a special character",
+				type: "displayError",
 			});
 			return;
 		}

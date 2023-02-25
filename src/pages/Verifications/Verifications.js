@@ -4,7 +4,7 @@ import Snackbar from "../../components/Snackbar/Snackbar";
 
 import VerifyEmail from "./VerifyEmail";
 import ResponseMessage from "./ResponseMessage";
-import PasswordReset from "./PasswordReset";
+import PasswordReset from "../Auth/PasswordReset";
 
 const RegisterPage = () => {
 	// const { firebase } = useAppContext();
@@ -29,7 +29,8 @@ const RegisterPage = () => {
 								(mode.toLowerCase() === "resetpassword" && <VerifyEmail data={data} setStatus={setStatus} setSnackbar={setSnackbar} snackbar={snackbar} />)}
 							{/* This is a message that is shown after a successful verification */}
 							{oobCode && status && mode.toLowerCase() === "verifyemail" && <ResponseMessage status={status} type="email verification" />}
-							{oobCode && status === "success" && mode.toLowerCase() === "resetpassword" && <PasswordReset />}
+							{oobCode && !status && mode.toLowerCase() === "resetpassword" && <PasswordReset oobCode={oobCode} setStatus={setStatus} />}
+							{oobCode && status && mode.toLowerCase() === "resetpassword" && <ResponseMessage status={status} type="password reset" />}
 						</article>
 					</section>
 				</>

@@ -12,6 +12,7 @@ import {
 	fetchSignInMethodsForEmail,
 	sendPasswordResetEmail,
 	checkActionCode,
+	confirmPasswordReset,
 } from "firebase/auth";
 import { getStorage } from "firebase/storage";
 import { getFirestore } from "firebase/firestore";
@@ -206,5 +207,22 @@ export default class Firebase {
 				}
 				callback({ error: true });
 			});
+	}
+
+	storeNewPassword(oobCode, password, callback) {
+		try {
+			confirmPasswordReset(this.auth, oobCode, password)
+				.then((res) => {
+					callback("success");
+				})
+				.catch((e) => {
+					if (e.code === "auth/invalid-action-code") {
+							callback({ error: true , payload : 'Invalid action code' });
+					}
+				});
+		} catch (e) {
+			console.log(e);
+			callback({ error: true });
+		}
 	}
 }

@@ -1,5 +1,4 @@
 import React, { useRef } from "react";
-import LoginImage from "../../assets/images/auth.png";
 import { Link } from "react-router-dom";
 import { useAppContext } from "../../context/AppContext";
 import { useNavigate } from "react-router-dom";

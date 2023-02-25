@@ -34,11 +34,13 @@ const VerifyEmail = ({ data, setStatus, setSnackbar, snackbar }) => {
 		oobCode &&
 			mode.toLowerCase() === "resetpassword" &&
 			firebase.verifyEmailReset(oobCode, (res) => {
-				console.log(res)
-				if (res?.error) return;
+				console.log(res);
+				if (res?.error) {
+					setStatus("error");
+					return;
+				}
 				// Display set up new password form
 				// Email verified successfully
-				setStatus("success");
 			});
 	});
 
