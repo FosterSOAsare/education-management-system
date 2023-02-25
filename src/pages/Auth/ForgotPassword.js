@@ -16,9 +16,6 @@ function ForgotPassword() {
     <div className="container">
       <div id="auth">
         <div className="auth__container">
-          <div className="container__image">
-                <img src={AuthImage} alt="img" />
-          </div>
           <div className="container__text">
             <form>
               <h2 className="intro">Forgot your password?</h2>

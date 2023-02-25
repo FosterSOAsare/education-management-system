@@ -138,9 +138,6 @@ const RegisterPage = () => {
 						</p>
 					</form>
 				</article>
-				<article className="container__image">
-					<img src={AuthImage} alt="Register" />
-				</article>
 			</section>
 		</main>
 	);

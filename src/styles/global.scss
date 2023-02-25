@@ -32,7 +32,7 @@ $primaryText: #131b23;
 
 @mixin container {
 	width: 100%;
-	max-width: 100%;
+	max-width: 1024px;
 	margin: 0 auto;
 	min-height: 100vh;
 }
@@ -45,7 +45,11 @@ p {
 }
 
 body {
-	background-color: $background;
+	all: unset;
+	background-image: linear-gradient(rgba(0, 0, 0, 0.60), rgba(0, 0, 0, 0.60)), url("../assets/images/auth.png");
+	object-fit: fill;
+	background-repeat: no-repeat;
+	background-size: 100%;
 }
 
 input {
