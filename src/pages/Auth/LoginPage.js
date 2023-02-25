@@ -51,11 +51,19 @@ const Login = () => {
 			navigate("/dashboard");
 		});
 	}
+
+	function useGoogleAuth(e) {
+		e.preventDefault();
+		firebase.useGoogleAuth((res) => {
+			credentialsDispatchFunc({ type: "storeUserId", payload: res.uid });
+			navigate("/dashboard");
+		});
+	}
 	return (
 		<main className="auth container" id="auth">
 			<section className="auth__container">
 				<article className="container__text">
-					<form action="" ref={formRef} onSubmit={logInUser}>
+					<form action="" ref={formRef}>
 						<h3 className="intro">Welcome back!</h3>
 						<div className="textInput">
 							<label htmlFor="email">Enter email address: </label>
@@ -66,7 +74,7 @@ const Login = () => {
 
 						{error.display === "block" && <Error text={error.text} />}
 						{!waiting && (
-							<button className="primary" disabled={error.display === "block"}>
+							<button className="primary" disabled={error.display === "block"} onClick={logInUser}>
 								Login
 							</button>
 						)}
@@ -75,7 +83,7 @@ const Login = () => {
 								Waiting...
 							</button>
 						)}
-						<button className="google-button" disabled={error.display === "block"}>
+						<button className="google-button" disabled={error.display === "block"} onClick={useGoogleAuth}>
 							<img src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg" alt="Google logo" />
 							<span>Sign in with Google</span>
 						</button>

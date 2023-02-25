@@ -8,7 +8,7 @@ import PasswordInput from "../../components/form/PasswordInput/PasswordInput";
 import Error from "../../components/form/Error/Error";
 
 const RegisterPage = () => {
-	const { firebase } = useAppContext();
+	const { firebase, credentialsDispatchFunc } = useAppContext();
 	const { errorDispatchFunc, error, clearError, waiting, setWaiting, validations } = useAuthContext();
 	const navigate = useNavigate();
 	const formRef = useRef();
@@ -74,7 +74,7 @@ const RegisterPage = () => {
 			}
 			// Store userData and redirect to verifcations
 			firebase.updateUserProfile(fullname, (res) => {
-				console.log(res)
+				console.log(res);
 				if (res?.error) return;
 				setWaiting(false);
 				// Redirect to verification page
@@ -86,7 +86,8 @@ const RegisterPage = () => {
 	function useGoogleAuth(e) {
 		e.preventDefault();
 		firebase.useGoogleAuth((res) => {
-			console.log(res);
+			credentialsDispatchFunc({ type: "storeUserId", payload: res.uid });
+			navigate("/dashboard");
 		});
 	}
 	return (

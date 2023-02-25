@@ -23,19 +23,19 @@ const AppProvider = ({ children }) => {
 	useEffect(() => {
 		localStorage.setItem("userId", JSON.stringify(userCredentials?.userId));
 		// Fetch and store user data
-		firebase.getUserData((res) => {
-			if (res?.error) return;
-			if (res.empty && navigator.onLine) {
-				firebase.signOutUser((res) => {
-					credentialsDispatchFunc({ type: "clearUserData" });
-				});
-				// Logout user
-				return;
-			}
-			let { email, displayName, emailVerified, uid } = res;
-			console.log(email, displayName, emailVerified, uid);
-			credentialsDispatchFunc({ type: "storeUserData", payload: { email, displayName, emailVerified, uid } });
-		});
+		userCredentials?.userId &&
+			firebase.getUserData((res) => {
+				if (res?.error) return;
+				if (res.empty && navigator.onLine) {
+					firebase.signOutUser((res) => {
+						credentialsDispatchFunc({ type: "clearUserData" });
+					});
+					// Logout user
+					return;
+				}
+				let { email, displayName, emailVerified, uid } = res;
+				credentialsDispatchFunc({ type: "storeUserData", payload: { email, displayName, emailVerified, uid } });
+			});
 	}, [userCredentials?.userId, firebase, credentialsDispatchFunc]);
 
 	return <AppContext.Provider value={{ firebase, credentialsDispatchFunc, userCredentials }}>{children}</AppContext.Provider>;

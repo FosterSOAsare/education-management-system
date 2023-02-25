@@ -40,12 +40,11 @@ export default class Firebase {
 	}
 	async useGoogleAuth(callback) {
 		try {
-			console.log(this.googleProvider);
 			let result = await signInWithPopup(this.auth, this.googleProvider);
-			const credential = GoogleAuthProvider.credentialFromResult(result);
-			const token = credential.accessToken;
+			// const credential = GoogleAuthProvider.credentialFromResult(result);
+			// const token = credential.accessToken;
 			const user = result.user;
-			console.log(credential, token, user);
+			callback(user);
 		} catch (error) {
 			console.log(error);
 		}
@@ -158,7 +157,7 @@ export default class Firebase {
 
 	async getUserData(callback) {
 		try {
-			let auth = await this.getAuth((res) => {
+			await this.getAuth((res) => {
 				callback(res);
 			});
 		} catch (error) {
