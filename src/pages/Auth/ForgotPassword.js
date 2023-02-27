@@ -5,7 +5,7 @@ import Error from "../../components/form/Error/Error";
 import { useNavigate } from "react-router-dom";
 
 function ForgotPassword() {
-	const [email, setEmail] = useState("donrixy@gmail.com");
+	const [email, setEmail] = useState("");
 	const { firebase } = useAppContext();
 	const { error, errorDispatchFunc, validations, clearError, waiting, setWaiting } = useAuthContext();
 	const navigate = useNavigate();

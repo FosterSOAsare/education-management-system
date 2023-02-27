@@ -12,18 +12,18 @@ const RegisterPage = () => {
 	const navigate = useNavigate();
 	const formRef = useRef();
 
-	useEffect(() => {
-		const inputs = document.querySelectorAll("form input");
-		let data = {
-			name: "Asare Foster Dead",
-			email: "donrixy@gmail.com",
-			password: "Asare4ster$...",
-			confirmpassword: "Asare4ster$...",
-		};
-		inputs.forEach((e) => {
-			e.value = data[e.name];
-		});
-	});
+	// useEffect(() => {
+	// 	const inputs = document.querySelectorAll("form input");
+	// 	let data = {
+	// 		name: "Asare Foster Dead",
+	// 		email: "donrixy@gmail.com",
+	// 		password: "Asare4ster$...",
+	// 		confirmpassword: "Asare4ster$...",
+	// 	};
+	// 	inputs.forEach((e) => {
+	// 		e.value = data[e.name];
+	// 	});
+	// });
 
 	function createAccount(e) {
 		e.preventDefault();
