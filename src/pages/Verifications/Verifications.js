@@ -39,6 +39,7 @@ const RegisterPage = () => {
 				}
 				// Email verified successfully
 				setStatus("success");
+				return;
 			});
 
 		// For verifying the resetPassword code from the link
@@ -54,7 +55,7 @@ const RegisterPage = () => {
 				// Display set up new password form
 				// Email verified successfully
 			});
-	});
+	}, [oobCode, email, firebase, setStatus, mode, navigate, setLoading]);
 
 	return (
 		<main className="auth container" id="auth">

@@ -4,6 +4,7 @@ import { TiTick } from "react-icons/ti";
 import { Link } from "react-router-dom";
 
 const ResponseMessage = ({ status, type }) => {
+	console.log(status, type);
 	return (
 		<section className="content">
 			<div className={`verification__icon${" verification__" + status}`}>{status === "success" ? <TiTick /> : status === "error" ? <BiErrorCircle /> : ""}</div>

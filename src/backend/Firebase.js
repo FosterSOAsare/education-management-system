@@ -204,6 +204,7 @@ export default class Firebase {
 				callback("success");
 			})
 			.catch((e) => {
+				console.log(e);
 				if (e.code === "auth/invalid-action-code") {
 					callback({ error: true, payload: "Invalid link" });
 					return;
